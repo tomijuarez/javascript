@@ -14,7 +14,7 @@
 - Functions can not interrupt each other.
 - If two or more processes don't interact, it's ok that they execute with nondeterminism (noninteracting).
 
-## CALLBACKS
+## Callbacks
 - Callbacks are one way to handle ascynchronous tasks in JS.
 - Some functions that accepts callbacks could be synchronous and others could by asynchronous. An example of a synchronous function that accepts a callback could be the following:
 ```javascript
