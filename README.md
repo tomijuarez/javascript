@@ -86,13 +86,13 @@ const register = (options, callback) => {
     }
 
     request('get', '/api/users', nick, callback);
-}
+};
 ```
 
 As we can see, if there's an error because the lack of the nickname in options the execution will be synchronous (`return callback(errors, null)`) and if there's a nickname it will be asynchronous because it will make a http request to some API (`request('get', 'api/users, nick, callback')`). This is not a good practice and should be avoided using `process.nextTick()`:
 
 ```javascript
-function register(options, callback) {
+const register => (options, callback) {
     const nick = (options.nick || '').trim();
     
     if (!nick) {
@@ -108,7 +108,7 @@ function register(options, callback) {
     }
 
     request('get', '/api/users', nick, callback);
-}
+};
 ```
 
 Using this built-in function we can ensure this code is always asynchronous. `process.nextTick` is the way we say to node that we want something to execute "later", and the meaning of "later" will depend on the load of the different stages of the event loop.
