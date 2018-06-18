@@ -1,3 +1,4 @@
+
 # Async Javascript for NodeJS
 
 ## Event-loop and code execution
@@ -123,20 +124,20 @@
 
 - Once a promise get resolved, it will retain the same resolution (fulfillment or rejection) forever, and can be accessed as many times as we want. For instance:
 
-```javascript
-const foo = () => {
-	return new Promise((resolve, reject) => {
-		//resolve or reject.
-	});
-};
+  ```javascript
+  const foo = () => {
+    return new Promise((resolve, reject) => {
+      //resolve or reject.
+    });
+  };
 
 
-const p = foo();
+  const p = foo();
 
-p.then(bar1, errBar1);
-p.then(bar2, errBar2);
+  p.then(bar1, errBar1);
+  p.then(bar2, errBar2);
 
-```
+  ```
 
 - It's a bad practice to name a method or a property of an object as `then`, because it may create bugs on promise-based coding. Sometimes developers check if some vriables are promises or `thenables` by duck-typing and it could be confused with a simple plain-object that has a `then` method.
 
@@ -145,29 +146,29 @@ p.then(bar2, errBar2);
  - It's impossible to **call to early** or **call too late** a callback like happens when we have a zalgo function using callbacks. The reason why is because the function `then` will be always called asynchronously even if we pass a constant through `resolve` or `reject` function. 
  - Also, we can be sure that we always will resolve out promises by being rejected or resolved, so it solves the **never calling the callback** issue. On the other hand, if we never call the `resolve` or `reject` method, we can use `Promise.race` to solve this problem setting a timeout for our promise:
 
-```javascript
-const timeoutPromise = delay => {
-	return new Promise((resolve, reject) => {
-		setTimeout(
-			() => reject("rejected."),
-			delay
-		);
-	});	
-};
+    ```javascript
+    const timeoutPromise = delay => {
+      return new Promise((resolve, reject) => {
+        setTimeout(
+          () => reject("rejected."),
+          delay
+        );
+      });	
+    };
 
-Promise.race([
-	foo(),
-	timeoutPromise(3000) //3 seconds
-])
-.then(
-	() => {
-		//foo it's fullfiled
-	},
-	(error) => {
-		//foo was rejected or it took too much and the timeout was fired.
-	}
-);
-```
+    Promise.race([
+      foo(),
+      timeoutPromise(3000) //3 seconds
+    ])
+    .then(
+      () => {
+        //foo it's fullfiled
+      },
+      (error) => {
+        //foo was rejected or it took too much and the timeout was fired.
+      }
+    );
+    ```
  - Promises solves the **calling too many times** issues that we get when using callbacks. Promises only takes the first resolution by `resolve` and `reject` and if we try to call those functions multiple times the promise will accept only the first and will ignore the following calls.
 
  - Also, promises solves the **swallowing any errors/exceptions** that occurs on callback schemas. If we reject the promise, we can set the error that we want to reflect. But, the big thing here is that if we make a runtime error (calla non-existing function, operate with undefined values, etc), then we can catch those errors the same way we handle the rejection of out promise:
