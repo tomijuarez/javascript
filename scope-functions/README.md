@@ -139,8 +139,30 @@ object.foo(window);
 
 ```
 
-
 ## Call, Apply, Bind
+These three methods set the value of _this_ explicitly, regardless on the context in which the function is defined or being called. The difference between `bind`, `call` and `apply` is that `bind` set the value of _this_ but doesn't execute the function, instead of doing that it set the value for future calls of that function. On the other hand, `apply` and `call` set the value of _this_ and they call that function, so it will be executed. Also, to make `bind` effective we need to assign it to a variable or call it because it returns a function.
+
+Functions `apply` and `call` differs only in the way we pass parameters to the function: `call` uses its parameters (from 1 to n) and apply uses an array as the second parameter, but they do the same thing. Their first argument is the object tal will be the value of _this_ and for `bind` that's the only one argument.
+
+```javascript
+let person1 = { name: "Tomas", lastName: "Juarez" };
+let person2 = { name: "Rocio", lastName: "Zalla" };
+
+function say(greeting, question) {
+    return `${greeting} ${this.name} ${this.lastName}, ${question}`;
+}
+
+say.call(person1, 'Hello', 'How are you?'); //Hello Tomas Juarez, How are you?
+say.call(person2, 'Hi!', 'How is it going?'); //Hi! Rocio Zalla, How is it going?
+
+say.apply(person1, ['Hello', 'How are you?']); //Hello Tomas Juarez, How are you?
+say.apply(person2, ['Hi!', 'How is it going?']); //Hi! Rocio Zalla, How is it going?
+
+const binded1 = say.bind(person1);
+binded1('Hello', 'How are you?'); //Hello Tomas Juarez, How are you?
+const binded2 = say.bind(person2); 
+binded2('Hi!', 'How is it going?'); //Hi! Rocio Zalla, How is it going?
+```
 
 # Closures
 
@@ -224,5 +246,24 @@ let b = 'letter B'; //The same with const.
 ```
 
 Anyway, this does not means that there's no hoisting for `let` and `const`. There is, but it work in a different way, because they're are flagged as _death_ until we reach their declaration.
+
 ### When to use hoisting
 Short answer: never. It's not a feature that Javascript exposes to be used, it's a consequence that comes from the flow that JS engine take to interpret the code. Moreover, some code lints throw warning or errors if they detect that and that's the reason why `let` and `const` doesn't admit that. If we use the strict mode of JS using `'use strict'` at t he beggining of our code, the first example won't work.
+
+### Function anonymous expression vs named function
+Hoisting also affect the ways we declare functions in JS. For instance, we could declare a function by a name or declare an anonymour function and assing it to a variabe:
+
+```javascript
+foo(); //I am a named function.
+bar(); //ReferenceError becuse bar is undefined -> hoisting makes it available but undefined.
+
+//Named function
+function foo() {
+    console.log('I am a named function.');
+}
+
+//const, let or var.
+const bar = function() {
+    console.log('I am an anonymous function stored in a variable.');
+};
+```

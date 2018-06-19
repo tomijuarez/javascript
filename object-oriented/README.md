@@ -175,3 +175,5 @@ subTypeObject2.getCustomName(); //Awful name
 The issue here is that we used `SubType1.prototype = SuperType.prototype;` and `SubType2.prototype = SuperType.prototype;` instead of using `new SuperType()`. If we create a new instance of SuperType we'll inherit our parent's prototype but a child modification won't affect other children and neither SuperType's prototype itself.
 
 ## Object utils
+
+//TO-DO
