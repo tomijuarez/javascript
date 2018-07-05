@@ -1,28 +1,24 @@
 import React from 'react';
-import { data } from '../testData';
-import DataAPI from '../DataAPI';
 import ArticleList from './ArticleList';
+import PropTypes from 'prop-types';
 
 class App extends React.Component {
 
-  constructor() {
-    super();
+  static childContextTypes = {
+    store: PropTypes.object
+  };
 
-    this.api = new DataAPI(data);
-
-    this.state = {
-      articles: this.api.getArticles(),
-      authors: this.api.getAuthors()
+  getChildContext() {
+    return {
+      store: this.props.store
     };
   }
 
-  articleActions = {
-    lookupAuthor: (authorId) => this.state.authors[authorId]
-  };
+  state = this.props.store.getState();
 
   render() {
     return (
-      <ArticleList articles={this.state.articles} articleActions={this.articleActions} />
+      <ArticleList articles={this.state.articles} store={this.props.store} />
     );
   }
 }

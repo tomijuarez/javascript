@@ -2,9 +2,12 @@
 <html lang="en">
   <head>
     <title><%= title %></title>
+    <script type="text/javascript">
+      window.initialData = <%- JSON.stringify(initialData) -%>
+    </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><%- initialMarkup -%></div>
     <script src="/bundle.js" type="text/javascript"></script>
   </body>
 </html>

@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const Article = (props) => {
-  const { article, actions } = props;
-  const author = actions.lookupAuthor(article.authorId);
+const Article = (props, context) => {
+  const { article } = props;
+  const author = context.store.lookupAuthor(article.authorId);
 
   return (
     <div>
@@ -16,6 +17,18 @@ const Article = (props) => {
       <div>{article.body}</div>
     </div>
   );
+};
+
+Article.propTypes = {
+  article: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    body: PropTypes.string.isRequired,
+    date: PropTypes.string.isRequired
+  })
+};
+
+Article.contextTypes = {
+  store: PropTypes.object
 };
 
 export default Article;

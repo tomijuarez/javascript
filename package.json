@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "enzyme": "^3.3.0"
+  }
+}

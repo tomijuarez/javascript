@@ -1,6 +1,11 @@
 import React from 'react';
 import ArticleList from '../ArticleList';
-import renderer from 'react-test-renderer';
+import { configure, shallow } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+
+import Article from '../Article';
+
+configure({ adapter: new Adapter() });
 
 describe('ArticleList', () => {
 
@@ -8,29 +13,28 @@ describe('ArticleList', () => {
     articles: {
       a: { id: 'a' },
       b: { id: 'b' }
-    },
-    articleActions : {
-      lookupAuthor: jest.fn(() => ({}))
     }
   };
 
+  Article.propTypes = {};
+
   it('renders correctly', () => {
-    const element = renderer.create(
+    const wrapper = shallow(
       <ArticleList
         {...testProps}
       />
-    ).toJSON();
+    );
 
-    expect(element).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('has the right children number', () => {
-    const element = renderer.create(
+    const wrapper = shallow(
       <ArticleList
         {...testProps}
       />
-    ).toJSON();
+    );
 
-    expect(element.children.length).toBe(2);
+    expect(wrapper.children().length).toBe(2);
   });
 });
